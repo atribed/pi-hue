@@ -2,4 +2,21 @@
 {% block content %}
     <h1>Welcome to Pi-Hue!</h1>
     Hey, you really did it. Congrats!
+
+    <h5>Set the color temp!</h5>
+    <form id="setCt" name="colorTemp">
+        <label>Color Temp:</label>
+        <input name="ct" type="number" />
+
+        <label>Room:</label>
+        <input name="room" type="text" />
+        <button>Change Temp</button>
+    </form>
+
+    <h5>Try to take a picture!</h5>
+    <button id="takePicture">[ o ] Picture</button>
+    <h5>Last Picture:</h5>
+    <div>
+        <img src="/static/images/image.jpg" />
+    </div>
 {% endblock %}
