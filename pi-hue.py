@@ -5,29 +5,21 @@
 
 """
 
-from flask import Flask, request, render_template, jsonify
-import picamera
+from flask import Flask, render_template
+import sqlite3
 
 # Not ideal, but since it's just being used across a home network not concerned at the moment.
 app = Flask(__name__, static_url_path='/static')
 
-# Setting up camera so we can submit pictures to set a scene with Hue.
-camera = picamera.PiCamera()
-
 @app.route('/')
 def load_home():
-    return render_template('index.html')
+    with sqlite3.connect('../../light.db') as connection:
+        connection.row_factory = sqlite3.Row
 
-@app.route('/picture', methods=['POST'])
-def take_picture():
-    images_path = 'static/images/image.jpg'
-    camera.capture(images_path)
-    #
-    # Just a temp response for the time being.
-    return jsonify(
-        success=True,
-        imagePath=images_path
-    )
+        cursor = connection.cursor()
+        cursor.execute('SELECT * FROM light_intensity ORDER BY reading_time LIMIT 10')
+        rows = cursor.fetchall()
+    return render_template('index.html', rows=rows)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')

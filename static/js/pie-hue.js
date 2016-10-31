@@ -4,14 +4,28 @@
     var apiUsername = 'exampleusername'; // This is super gross. Will move it to server and proxy once things are working.
     var bridgeAddress = 'http://0.0.0.0'; // path to bridge (should be IP)
 
+    function determineLightSetting(exposure) {
+        if (exposure < 3) {
+            setBathroomCt(520);
+        }
+
+        if (exposure > 3) {
+            setBathroomCt(160);
+        }
+    }
+
     // Dirty take picture request, will clean.
     function requestPicture() {
-        $.ajax({
+        var picturePromise = $.ajax({
             url: '/picture',
             method: 'POST',
             data: {
                 picture: true
             }
+        });
+
+        picturePromise.done(function(data) {
+            determineLightSetting(data.exposure);
         });
     }
 
@@ -57,6 +71,10 @@
 
         getGroupIdByName(name, callback);
     }
+
+    function setBathroomCt(ct) {
+        setGroupSettingsByName('Bathroom', 'ct', parseInt(ct, 10));
+    };
 
     // Quick and dirty, will refactor after sleep.
     function setColorTemp(event) {
