@@ -7,18 +7,26 @@ import sqlite3
 import os
 
 def add_light_intensity(light_intensity=None):
+    """
+    Adds a light intensity reading to the database.
+    :param light_intensity: int
+    :return:
+    """
     try:
-        with sqlite3.connect('../../light') as connection:
-            cursor = connection.cursor()
-            cursor.execute("INSERT INTO light_intensity('light_reading') VALUES(?)", (light_intensity,))
-            connection.commit()
+        connection = sqlite3.connect('../../light')
+        cursor = connection.cursor()
+        cursor.row_factory = sqlite3.Row
+        cursor.execute("INSERT INTO light_intensity('light_reading') VALUES(?)", (light_intensity,))
     except EnvironmentError:
         print('Error with add_light_intensity, sql')
+    finally:
+        connection.commit()
+        connection.close()
 
 
 def get_light_reading():
     """
-    Quick hacky-ish way to gauge light intensity.
+    Quick and cheap way to gauge light intensity from an image.
     :return:  void
     """
     images_path = os.path.abspath('./image.jpg')
