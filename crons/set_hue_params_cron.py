@@ -27,8 +27,7 @@ def get_active_light_groups():
         cursor = connection.cursor()
         cursor.row_factory = sqlite3.Row
         cursor.execute("SELECT group_id FROM light_groups WHERE is_active=1")
-        connection.commit()
-    except EnvironmentError:
+    except:
         print('Error getting active lights, sql')
     finally:
         active_lights = cursor.fetchall()
@@ -46,9 +45,8 @@ def get_last_light_reading():
         cursor = connection.cursor()
         cursor.row_factory = sqlite3.Row
         cursor.execute("SELECT light_reading FROM light_intensity ORDER BY date(reading_time) DESC Limit 1")
-        connection.commit()
-    except EnvironmentError:
-        print('Err getting last light reading, sql')
+    except:
+        print('Error getting last light reading, sql')
     finally:
         light_reading = cursor.fetchone()
         connection.close()
@@ -73,5 +71,5 @@ def update_hue():
         try:
             r = requests.put(url, json.dumps(data))
             print r.json();
-        except EnvironmentError:
+        except:
             print('Error with API call to hue, update_hue')

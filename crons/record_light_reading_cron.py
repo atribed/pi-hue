@@ -17,10 +17,12 @@ def add_light_intensity(light_intensity=None):
         cursor = connection.cursor()
         cursor.row_factory = sqlite3.Row
         cursor.execute("INSERT INTO light_intensity('light_reading') VALUES(?)", (light_intensity,))
-    except EnvironmentError:
+    except:
+        connection.rollback()
         print('Error with add_light_intensity, sql')
-    finally:
+    else:
         connection.commit()
+    finally:
         connection.close()
 
 

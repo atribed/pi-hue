@@ -11,9 +11,12 @@ def remove_rows_from_light_intensity_table():
         connection = sqlite3.connect('../../light')
         cursor = connection.cursor()
         cursor.execute("DELETE FROM light_intensity")
-    except EnvironmentError:
+    except:
+        connection.rollback()
         print('Error with add_light_intensity, sql')
-    finally:
+    else:
         connection.commit()
+    finally:
+        connection.close()
 
 remove_rows_from_light_intensity_table()
