@@ -25,7 +25,3 @@ I have a pi-hue.ini file in /etc/pi-hue where I store my Hue API settings (ip_ad
 Chose Flask for a web framework because having to write scripts and crons, it will be nice to be able to do everything in Python. Also just another excuse to write some more python.
 
 The next step is hardcoding some lookups for the 'ct' value of the hue to the brightness value we get from the image. Once that's complete, this will be fully functional (and a little quirky). Once that's complete and the web app receives a little attention (want to set a toggle for this functionality, plus an optional brightness setting in addition to color temp), will have to do some math to make the values correspond a little more elegantly.
-
-That's it for now. Thanks for stopping by, expect updates often.
-
-
